@@ -366,12 +366,11 @@ footer {
     <h3>📱 Mobile Money Payment</h3>
 
     <p>
-      Send your payment using Mobile Money to the number provided by
-      Roberta Business Hub.
+      Make total payment to this number on your Mobile Money:<br>
+<strong>0880068062</strong><br>
+Name: <strong>Roberta Kidka</strong>
     </p>
-<button class="checkoutBtn" onclick="window.location.href='tel:*156*1*1*0880068062%232'">
-  💰 Dial *156*1*1*0880068062*2#
-</button>
+
 <p>
   After paying, tap the WhatsApp button below and send your payment screenshot.
 </p>
@@ -600,10 +599,11 @@ function sendWhatsAppOrder() {
   message += "%0ASubtotal: $" + subtotal.toFixed(2);
   message += "%0ADelivery: $" + delivery.toFixed(2);
   message += "%0ATotal: $" + total.toFixed(2);
-
-  window.open(
-    "https://wa.me/?text=" + message,
+window.open(
+    "https://wa.me/231880068062?text=" + message,
     "_blank"
+);
+  
   );
 }
 
