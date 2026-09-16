@@ -361,5 +361,221 @@ document.getElementById("cartButton").addEventListener("click", function() {
     box.style.display = "block";
   }
 });
+</script><style>
+#checkoutBox {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  max-width: 88%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.3);
+  z-index: 10000;
+}
+
+#checkoutBox h2 {
+  color: #7b2cbf;
+  margin-top: 0;
+}
+
+#deliveryLocation {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+#payMobileMoney {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  background: #7b2cbf;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#closeCheckout {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background: #eee;
+  border-radius: 8px;
+}
+
+#paymentInstructions {
+  display: none;
+  margin-top: 15px;
+  padding: 15px;
+  background: #f8f5ff;
+  border-radius: 10px;
+  line-height: 1.6;
+}
+</style>
+
+<div id="checkoutBox">
+  <h2>🚚 Checkout</h2>
+
+  <p><strong>Choose your delivery location:</strong></p>
+
+  <select id="deliveryLocation" onchange="calculateCheckout()">
+    <option value="">-- Select your location --</option>
+
+    <option value="2">Central Monrovia — $2.00</option>
+    <option value="1">Sinkor — $1.00</option>
+    <option value="1.5">Vai Town – Clara Town — $1.50</option>
+    <option value="2">Freeport, Logan Town, Bong Mines Bridge — $2.00</option>
+    <option value="3">Point Four, New Kru Town, Coldwell Junction & Duala — $3.00</option>
+    <option value="3.5">Club Beer, Tweh Farm, St. Paul Bridge, LMC Junction — $3.50</option>
+    <option value="4">Across St. Paul Bridge, Red Hill Field — $4.00</option>
+    <option value="4">Coldwell New Georgia Cemetery, Diggsville Town — $4.00</option>
+    <option value="4.5">Iron Gate, Banjour — $4.50</option>
+    <option value="4.5">Brewerville Store, Bible College, VOA WAMCO — $4.50</option>
+    <option value="5">Brewerville Parker Corner — $5.00</option>
+    <option value="5">Upper Caldwell, Sand Beach Community, Cossyva Hill — $5.00</option>
+    <option value="6.5">Po-River — $6.50</option>
+
+    <option value="1.75">Old Road, Congo Town (Nigeria House) — $1.75</option>
+    <option value="2.3">Congo Town (beyond Nigeria House) — $2.30</option>
+    <option value="2.5">Boulevard Junction, SD Cooper, ELWA — $2.50</option>
+
+    <option value="2.75">GSA Road, Duport Road, Red Light, Sore Clinic — $2.75</option>
+    <option value="3">Parker Paint, Pipeline — $3.00</option>
+    <option value="3">Cocoa Cola Factory, Omega — $3.00</option>
+    <option value="4">FDA — $4.00</option>
+    <option value="5">Mount Barclay — $5.00</option>
+    <option value="5.5">Fendell — $5.50</option>
+
+    <option value="2.75">Police Academy Junction — $2.75</option>
+    <option value="3">Neezoe, Jacob Town, Chicken Soup Factory — $3.00</option>
+    <option value="3">Stephen Tolbert, New Georgia Junction, Barnesville Junction — $3.00</option>
+    <option value="3.5">Barnesville Estate, Barnesville Kebah, New Georgia Estate — $3.50</option>
+    <option value="4">Barnesville Kebah — $4.00</option>
+    <option value="4.5">Dixville — $4.50</option>
+
+    <option value="2.5">ELWA Community — $2.50</option>
+    <option value="3">Rehab Community — $3.00</option>
+    <option value="3.5">Thinker Village, Mills Center — $3.50</option>
+    <option value="4">Baptist Seminary, Gengbar’s Town, VOA — $4.00</option>
+    <option value="5">R2 Community, Duazon — $5.00</option>
+    <option value="7">Boys Town — $7.00</option>
+  </select>
+
+  <p>🛍️ Products: <strong>$<span id="checkoutSubtotal">0.00</span></strong></p>
+
+  <p>🚚 Delivery: <strong>$<span id="checkoutDelivery">0.00</span></strong></p>
+
+  <h2>Total: $<span id="checkoutTotal">0.00</span></h2>
+
+  <button id="payMobileMoney" onclick="showPaymentInstructions()">
+    💰 Pay with Mobile Money
+  </button>
+
+  <div id="paymentInstructions">
+    <strong>📱 Mobile Money Payment</strong><br><br>
+
+    Send your payment to:<br>
+    <strong>0880068062</strong><br><br>
+
+    Dial this code on your phone:<br>
+
+    <strong>*156*1*1*0880068062*2#</strong>
+
+    <br><br>
+
+    Enter the <strong>total amount shown above</strong>, then follow the Mobile Money instructions to complete your payment.
+
+    <br><br>
+
+    ⚠️ <strong>Never enter your Mobile Money PIN on this website.</strong>
+    Enter your PIN only in the official Mobile Money prompt on your phone.
+  </div>
+
+  <button id="closeCheckout" onclick="closeCheckoutBox()">
+    Close
+  </button>
+</div>
+
+<script>
+function getCartSubtotal() {
+  let total = 0;
+
+  if (typeof cart !== "undefined") {
+    cart.forEach(function(item) {
+      total += Number(item.price);
+    });
+  }
+
+  return total;
+}
+
+function openCheckout() {
+  const subtotal = getCartSubtotal();
+
+  if (subtotal <= 0) {
+    alert("Your cart is empty. Please add a product first.");
+    return;
+  }
+
+  document.getElementById("checkoutBox").style.display = "block";
+  document.getElementById("checkoutSubtotal").textContent = subtotal.toFixed(2);
+  calculateCheckout();
+}
+
+function calculateCheckout() {
+  const subtotal = getCartSubtotal();
+
+  const locationSelect = document.getElementById("deliveryLocation");
+  const delivery = parseFloat(locationSelect.value) || 0;
+
+  const total = subtotal + delivery;
+
+  document.getElementById("checkoutSubtotal").textContent = subtotal.toFixed(2);
+  document.getElementById("checkoutDelivery").textContent = delivery.toFixed(2);
+  document.getElementById("checkoutTotal").textContent = total.toFixed(2);
+
+  document.getElementById("paymentInstructions").style.display = "none";
+}
+
+function showPaymentInstructions() {
+  const location = document.getElementById("deliveryLocation").value;
+
+  if (!location) {
+    alert("Please choose your delivery location first.");
+    return;
+  }
+
+  document.getElementById("paymentInstructions").style.display = "block";
+}
+
+function closeCheckoutBox() {
+  document.getElementById("checkoutBox").style.display = "none";
+  document.getElementById("paymentInstructions").style.display = "none";
+}
+
+const oldOrderButton = document.getElementById("orderWhatsApp");
+
+if (oldOrderButton) {
+  oldOrderButton.textContent = "Checkout & Pay";
+  oldOrderButton.removeAttribute("href");
+  oldOrderButton.removeAttribute("target");
+  oldOrderButton.onclick = function(event) {
+    event.preventDefault();
+    openCheckout();
+  };
+}
 </script></body>
 </html>
