@@ -305,94 +305,75 @@ document.querySelectorAll(".buy").forEach(function(button) {
   });
 });
 
-function updateCart() {    const cartButton = document.getElementById("cartButton");
-    const cartItems = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
 
-    let total = 0;
-    let itemCount = 0;
-    let html = "";
+  function updateCart() {
+  const cartButton = document.getElementById("cartButton");
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
 
-    if (cart.length === 0) {
-        cartButton.textContent = "🛒 Cart (0)";
-        cartItems.innerHTML = "Your cart is empty.";
-        cartTotal.textContent = "0";
-        return;
+  let total = 0;
+  let itemCount = 0;
+  let html = "";
+
+  if (cart.length === 0) {
+    cartButton.textContent = "🛒 Cart (0)";
+    cartItems.innerHTML = "Your cart is empty.";
+    cartTotal.textContent = "0";
+    return;
+  }
+
+  window.changeQty = function(index, change) {
+    if (!cart[index].quantity) {
+      cart[index].quantity = 1;
     }
 
-    window.changeQty = function(index, change) {
-        if (!cart[index].quantity) {
-            cart[index].quantity = 1;
-        }
+    cart[index].quantity += change;
 
-        cart[index].quantity += change;
-
-        if (cart[index].quantity <= 0) {
-            cart.splice(index, 1);
-        }
-
-        updateCart();
-    };
-
-    cart.forEach(function(item, index) {
-        if (!item.quantity) {
-            item.quantity = 1;
-        }
-
-        const itemTotal = item.price * item.quantity;
-
-        total += itemTotal;
-        itemCount += item.quantity;
-
-        html += `
-            <div class="cartItem">
-                <div>
-                    <strong>${item.name}</strong> - $${item.price.toFixed(2)}
-                </div>
-
-                <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
-                    <button onclick="changeQty(${index}, -1)"
-                            const cartButton = document.getElementById("cartButton");
-    const cartItems = document.getElementById("cartItems");
-    const cartTotal = document.getElementById("cartTotal");
-
-    let total = 0;
-    let itemCount = 0;
-    let html = "";
-
-    if (cart.length === 0) {
-        cartButton.textContent = "🛒 Cart (0)";
-        cartItems.innerHTML = "Your cart is empty.";
-        cartTotal.textContent = "0";
-        return;
+    if (cart[index].quantity <= 0) {
+      cart.splice(index, 1);
     }
 
-    window.changeQty = function(index, change) {
-        if (!cart[index].quantity) {
-            cart[index].quantity = 1;
-        }
+    updateCart();
+  };
 
-        cart[index].quantity += change;
+  cart.forEach(function(item, index) {
+    if (!item.quantity) {
+      item.quantity = 1;
+    }
 
-        if (cart[index].quantity <= 0) {
-            cart.splice(index, 1);
-        }
+    const itemTotal = item.price * item.quantity;
 
-        updateCart();
-    };
+    total += itemTotal;
+    itemCount += item.quantity;
 
-    cart.forEach(function(item, index) {
-        if (!item.quantity) {
-            item.quantity = 1;
-        }
+    html += `
+      <div class="cartItem">
+        <div>
+          <strong>${item.name}</strong> - $${item.price.toFixed(2)}
+        </div>
 
-        const itemTotal = item.price * item.quantity;
+        <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+          <button onclick="changeQty(${index}, -1)"
+            style="padding:5px 12px; font-size:18px;">−</button>
 
-        total += itemTotal;
-        itemCount += item.quantity;
+          <strong>${item.quantity}</strong>
 
-        html += `
-            <div class="cartItem">
+          <button onclick="changeQty(${index}, 1)"
+            style="padding:5px 12px; font-size:18px;">+</button>
+
+          <button onclick="removeItem(${index})"
+            style="border:none; background:none; font-size:20px;">❌</button>
+        </div>
+      </div>
+    `;
+  });
+
+  cartButton.textContent = "🛒 Cart (" + itemCount + ")";
+  cartItems.innerHTML = html;
+  cartTotal.textContent = total.toFixed(2);
+}
+
+    
                 <div>
                     <strong>${item.name}</strong> - $${item.price.toFixed(2)}
                 </div>
@@ -400,22 +381,6 @@ function updateCart() {    const cartButton = document.getElementById("cartButto
                 <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
                     <button onclick="changeQty(${index}, -1)"
                         style="padding:5px 12px; font-size:18px;">−</button>
-
-                    <strong>${item.quantity}</strong>
-
-                    <button onclick="changeQty(${index}, 1)"
-                        style="padding:5px 12px; font-size:18px;">+</button>
-
-                    <button onclick="removeItem(${index})"
-                        style="border:none; background:none; font-size:20px;">❌</button>
-                </div>
-            </div>
-        `;
-    });
-
-    cartButton.textContent = "🛒 Cart (" + itemCount + ")";
-    cartItems.innerHTML = html;
-    cartTotal.textContent = total.toFixed(2);
 
                     <strong>${item.quantity}</strong>
 
