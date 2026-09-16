@@ -305,47 +305,133 @@ document.querySelectorAll(".buy").forEach(function(button) {
   });
 });
 
-function updateCart() {
-  const cartButton = document.getElementById("cartButton");
-  const cartItems = document.getElementById("cartItems");
-  const cartTotal = document.getElementById("cartTotal");
+function updateCart() {    const cartButton = document.getElementById("cartButton");
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
 
-  cartButton.textContent = "🛒 Cart (" + cart.length + ")";
+    let total = 0;
+    let itemCount = 0;
+    let html = "";
 
-  if (cart.length === 0) {
-    cartItems.innerHTML = "Your cart is empty.";
-    cartTotal.textContent = "0";
-    return;
-  }
+    if (cart.length === 0) {
+        cartButton.textContent = "🛒 Cart (0)";
+        cartItems.innerHTML = "Your cart is empty.";
+        cartTotal.textContent = "0";
+        return;
+    }
 
-  let total = 0;
-  let html = "";
+    window.changeQty = function(index, change) {
+        if (!cart[index].quantity) {
+            cart[index].quantity = 1;
+        }
 
-  cart.forEach(function(item, index) {
-    total += item.price;
+        cart[index].quantity += change;
 
-    html += `
-      <div class="cartItem">
-        ${item.name} - $${item.price}
-        <button onclick="removeItem(${index})">❌</button>
-      </div>
-    `;
-  });
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
 
-  cartItems.innerHTML = html;
-  cartTotal.textContent = total.toFixed(2);
+        updateCart();
+    };
 
-  let message = "Hello Roberta Business Hub! I would like to order:%0A%0A";
+    cart.forEach(function(item, index) {
+        if (!item.quantity) {
+            item.quantity = 1;
+        }
 
-  cart.forEach(function(item) {
-    message += "• " + item.name + " - $" + item.price + "%0A";
-  });
+        const itemTotal = item.price * item.quantity;
 
-  message += "%0ATotal: $" + total.toFixed(2);
+        total += itemTotal;
+        itemCount += item.quantity;
 
-  document.getElementById("orderWhatsApp").href =
-    "https://wa.me/231880068062?text=" + message;
-}
+        html += `
+            <div class="cartItem">
+                <div>
+                    <strong>${item.name}</strong> - $${item.price.toFixed(2)}
+                </div>
+
+                <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                    <button onclick="changeQty(${index}, -1)"
+                            const cartButton = document.getElementById("cartButton");
+    const cartItems = document.getElementById("cartItems");
+    const cartTotal = document.getElementById("cartTotal");
+
+    let total = 0;
+    let itemCount = 0;
+    let html = "";
+
+    if (cart.length === 0) {
+        cartButton.textContent = "🛒 Cart (0)";
+        cartItems.innerHTML = "Your cart is empty.";
+        cartTotal.textContent = "0";
+        return;
+    }
+
+    window.changeQty = function(index, change) {
+        if (!cart[index].quantity) {
+            cart[index].quantity = 1;
+        }
+
+        cart[index].quantity += change;
+
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
+
+        updateCart();
+    };
+
+    cart.forEach(function(item, index) {
+        if (!item.quantity) {
+            item.quantity = 1;
+        }
+
+        const itemTotal = item.price * item.quantity;
+
+        total += itemTotal;
+        itemCount += item.quantity;
+
+        html += `
+            <div class="cartItem">
+                <div>
+                    <strong>${item.name}</strong> - $${item.price.toFixed(2)}
+                </div>
+
+                <div style="display:flex; align-items:center; gap:10px; margin-top:8px;">
+                    <button onclick="changeQty(${index}, -1)"
+                        style="padding:5px 12px; font-size:18px;">−</button>
+
+                    <strong>${item.quantity}</strong>
+
+                    <button onclick="changeQty(${index}, 1)"
+                        style="padding:5px 12px; font-size:18px;">+</button>
+
+                    <button onclick="removeItem(${index})"
+                        style="border:none; background:none; font-size:20px;">❌</button>
+                </div>
+            </div>
+        `;
+    });
+
+    cartButton.textContent = "🛒 Cart (" + itemCount + ")";
+    cartItems.innerHTML = html;
+    cartTotal.textContent = total.toFixed(2);
+
+                    <strong>${item.quantity}</strong>
+
+                    <button onclick="changeQty(${index}, 1)"
+                        style="padding:5px 12px; font-size:18px;">+</button>
+
+                    <button onclick="removeItem(${index})"
+                        style="border:none; background:none; font-size:20px;">❌</button>
+                </div>
+            </div>
+        `;
+    });
+
+    cartButton.textContent = "🛒 Cart (" + itemCount + ")";
+    cartItems.innerHTML = html;
+    cartTotal.textContent = total.toFixed(2);
 
 function removeItem(index) {
   cart.splice(index, 1);
@@ -500,8 +586,7 @@ document.getElementById("cartButton").addEventListener("click", function() {
 
     <br><br>
 
-    ⚠️ <strong>Never enter your Mobile Money PIN on this website.</strong>
-    Enter your PIN only in the official Mobile Money prompt on your phone.
+  
   </div>
 
   <button id="closeCheckout" onclick="closeCheckoutBox()">
