@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roberta Business Hub</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f8f5ff;
+  color: #222;
+}
+
+header {
+  background: #7b2cbf;
+  color: white;
+  text-align: center;
+  padding: 45px 20px;
+}
+
+header h1 {
+  font-size: 42px;
+  margin: 0 0 10px;
+}
+
+header p {
+  font-size: 18px;
+}
+
+.shopBtn,
+.buyBtn,
+.checkoutBtn,
+.whatsappBtn {
+  display: inline-block;
+  background: #7b2cbf;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 14px 25px;
+  font-size: 17px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+header .shopBtn {
+  background: white;
+  color: #7b2cbf;
+  margin-top: 15px;
+}
+
+section {
+  padding: 45px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  color: #7b2cbf;
+  font-size: 38px;
+  margin-bottom: 35px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: white;
+  border-radius: 25px;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.emoji {
+  font-size: 65px;
+}
+
+.card h3 {
+  font-size: 25px;
+}
+
+.price {
+  color: #7b2cbf;
+  font-size: 25px;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.cartButton {
+  position: fixed;
+  right: 20px;
+  bottom: 25px;
+  background: #7b2cbf;
+  color: white;
+  border: none;
+  border-radius: 35px;
+  padding: 18px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 1000;
+}
+
+#cartBox,
+#checkoutBox {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 90%;
+  max-width: 430px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  z-index: 2000;
+}
+
+.cartItem {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+}
+
+.qtyBtn {
+  padding: 6px 12px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+}
+
+.closeBtn {
+  float: right;
+  border: none;
+  background: none;
+  font-size: 24px;
+}
+
+select,
+input {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.total {
+  font-size: 21px;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.info {
+  background: white;
+  border-radius: 25px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+footer {
+  text-align: center;
+  background: #7b2cbf;
+  color: white;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+.payment {
+  background: #f4edff;
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Roberta Business Hub 💜</h1>
+  <p>Shop quality products at affordable prices in Liberia.</p>
+  <a href="#products" class="shopBtn">Shop Now</a>
+</header>
+
+<section id="products">
+  <h2>Our Products</h2>
+
+  <div class="products">
+
+    <div class="card">
+      <div class="emoji">💡</div>
+      <h3>Strip Light</h3>
+      <div class="price">$15</div>
+      <button class="buyBtn" onclick="addToCart('Strip Light',15)">
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🌸</div>
+      <h3>Cherry Blossom Light</h3>
+      <div class="price">$20</div>
+      <button class="buyBtn" onclick="addToCart('Cherry Blossom Light',20)">
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🎁</div>
+      <h3>Man Package</h3>
+      <div class="price">$40</div>
+      <button class="buyBtn" onclick="addToCart('Man Package',40)">
+        Add to Cart
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="emoji">💖</div>
+      <h3>Girly Package</h3>
+      <div class="price">$20</div>
+      <button class="buyBtn" onclick="addToCart('Girly Package',20)">
+        Add to Cart
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>Find Us 📍</h2>
+
+  <div class="info">
+    <p><strong>Location:</strong> 5th Street, Sinkor, Monrovia, Liberia</p>
+    <p>🚚 Delivery available within Monrovia.</p>
+    <p>💰 Delivery fee is paid by the customer.</p>
+
+    <a class="whatsappBtn"
+       href="https://wa.me/"
+       target="_blank">
+       Contact Us on WhatsApp
+    </a>
+  </div>
+</section>
+
+<button class="cartButton" onclick="openCart()">
+  🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+<div id="cartBox">
+  <button class="closeBtn" onclick="closeCart()">✕</button>
+
+  <h2>Your Cart</h2>
+
+  <div id="cartItems">
+    Your cart is empty.
+  </div>
+
+  <div class="total">
+    Subtotal: $<span id="cartTotal">0.00</span>
+  </div>
+
+  <button class="checkoutBtn" onclick="openCheckout()">
+    Checkout
+  </button>
+</div>
+
+<div id="checkoutBox">
+
+  <button class="closeBtn" onclick="closeCheckout()">✕</button>
+
+  <h2>Checkout</h2>
+
+  <label>Your Name</label>
+  <input id="customerName" type="text" placeholder="Enter your name">
+
+  <label>Phone Number</label>
+  <input id="customerPhone" type="tel" placeholder="Enter your phone number">
+
+  <label>Delivery Location</label>
+
+  <select id="location" onchange="calculateTotal()">
+    <option value="">Select your area</option>
+    <option value="5">Sinkor — $5</option>
+    <option value="7">Congo Town — $7</option>
+    <option value="7">Paynesville — $7</option>
+    <option value="8">ELWA — $8</option>
+    <option value="8">Red Light — $8</option>
+    <option value="10">Barnersville — $10</option>
+    <option value="10">New Georgia — $10</option>
+    <option value="10">West Point — $10</option>
+  </select>
+
+  <div class="total">
+    Subtotal: $<span id="checkoutSubtotal">0.00</span>
+  </div>
+
+  <div class="total">
+    Delivery: $<span id="deliveryFee">0.00</span>
+  </div>
+
+  <div class="total">
+    Total: $<span id="checkoutTotal">0.00</span>
+  </div>
+
+  <button class="checkoutBtn" onclick="showPayment()">
+    Continue to Payment
+  </button>
+
+  <div id="paymentInfo" class="payment" style="display:none;">
+
+    <h3>📱 Mobile Money Payment</h3>
+
+    <p>
+      Send your payment using Mobile Money to the number provided by
+      Roberta Business Hub.
+    </p>
+
+    <p>
+      After payment, send your payment confirmation/screenshot on WhatsApp.
+    </p>
+
+    <button class="whatsappBtn" onclick="sendWhatsAppOrder()">
+      Send Order on WhatsApp
+    </button>
+
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Roberta Business Hub 💜
+</footer>
+
+<script>
+
+let cart = [];
+
+function addToCart(name, price) {
+
+  let existing = cart.find(item => item.name === name);
+
+  if (existing) {
+    existing.quantity++;
+  } else {
+    cart.push({
+      name: name,
+      price: price,
+      quantity: 1
+    });
+  }
+
+  updateCart();
+
+  alert(name + " added to cart 🛒");
+}
+
+function updateCart() {
+
+  let html = "";
+  let total = 0;
+  let count = 0;
+
+  if (cart.length === 0) {
+    document.getElementById("cartItems").innerHTML =
+      "Your cart is empty.";
+
+    document.getElementById("cartTotal").textContent = "0.00";
+    document.getElementById("cartCount").textContent = "0";
+
+    return;
+  }
+
+  cart.forEach(function(item, index) {
+
+    total += item.price * item.quantity;
+    count += item.quantity;
+
+    html += `
+      <div class="cartItem">
+
+        <strong>${item.name}</strong><br>
+
+        $${item.price.toFixed(2)}
+
+        <div style="margin-top:10px;">
+
+          <button class="qtyBtn"
+            onclick="changeQuantity(${index},-1)">
+            −
+          </button>
+
+          <strong style="margin:0 12px;">
+            ${item.quantity}
+          </strong>
+
+          <button class="qtyBtn"
+            onclick="changeQuantity(${index},1)">
+            +
+          </button>
+
+          <button class="qtyBtn"
+            onclick="removeItem(${index})">
+            ❌
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  });
+
+  document.getElementById("cartItems").innerHTML = html;
+  document.getElementById("cartTotal").textContent = total.toFixed(2);
+  document.getElementById("cartCount").textContent = count;
+}
+
+function changeQuantity(index, change) {
+
+  cart[index].quantity += change;
+
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1);
+  }
+
+  updateCart();
+}
+
+function removeItem(index) {
+
+  cart.splice(index, 1);
+
+  updateCart();
+}
+
+function openCart() {
+  document.getElementById("cartBox").style.display = "block";
+}
+
+function closeCart() {
+  document.getElementById("cartBox").style.display = "none";
+}
+
+function openCheckout() {
+
+  if (cart.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  document.getElementById("cartBox").style.display = "none";
+  document.getElementById("checkoutBox").style.display = "block";
+
+  calculateTotal();
+}
+
+function closeCheckout() {
+  document.getElementById("checkoutBox").style.display = "none";
+}
+
+function getSubtotal() {
+
+  let subtotal = 0;
+
+  cart.forEach(function(item) {
+    subtotal += item.price * item.quantity;
+  });
+
+  return subtotal;
+}
+
+function calculateTotal() {
+
+  let subtotal = getSubtotal();
+
+  let location = document.getElementById("location").value;
+
+  let delivery = location ? Number(location) : 0;
+
+  document.getElementById("checkoutSubtotal").textContent =
+    subtotal.toFixed(2);
+
+  document.getElementById("deliveryFee").textContent =
+    delivery.toFixed(2);
+
+  document.getElementById("checkoutTotal").textContent =
+    (subtotal + delivery).toFixed(2);
+}
+
+function showPayment() {
+
+  let location = document.getElementById("location").value;
+  let name = document.getElementById("customerName").value;
+  let phone = document.getElementById("customerPhone").value;
+
+  if (!name || !phone || !location) {
+    alert("Please enter your name, phone number and delivery location.");
+    return;
+  }
+
+  calculateTotal();
+
+  document.getElementById("paymentInfo").style.display = "block";
+}
+
+function sendWhatsAppOrder() {
+
+  let name = document.getElementById("customerName").value;
+  let phone = document.getElementById("customerPhone").value;
+  let locationSelect = document.getElementById("location");
+
+  let location =
+    locationSelect.options[locationSelect.selectedIndex].text;
+
+  let subtotal = getSubtotal();
+
+  let delivery = Number(locationSelect.value);
+
+  let total = subtotal + delivery;
+
+  let message = "Hello Roberta Business Hub 💜%0A%0A";
+
+  message += "I want to place an order.%0A%0A";
+
+  message += "Name: " + name + "%0A";
+  message += "Phone: " + phone + "%0A";
+  message += "Delivery: " + location + "%0A%0A";
+
+  cart.forEach(function(item) {
+
+    message +=
+      item.name +
+      " x" +
+      item.quantity +
+      " - $" +
+      (item.price * item.quantity).toFixed(2) +
+      "%0A";
+
+  });
+
+  message += "%0ASubtotal: $" + subtotal.toFixed(2);
+  message += "%0ADelivery: $" + delivery.toFixed(2);
+  message += "%0ATotal: $" + total.toFixed(2);
+
+  window.open(
+    "https://wa.me/?text=" + message,
+    "_blank"
+  );
+}
+
+updateCart();
+
+</script>
+
+</body>
+</html>
