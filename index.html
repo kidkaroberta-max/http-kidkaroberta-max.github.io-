@@ -222,5 +222,144 @@
     <p>Shop with us 💜</p>
   </footer>
 
-</body>
+<style>
+#cartButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #7b2cbf;
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 9999;
+}
+
+#cartBox {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  max-width: 85%;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0,0,0,.25);
+  z-index: 9999;
+}
+
+#cartBox h3 {
+  margin-top: 0;
+}
+
+.cartItem {
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#orderWhatsApp {
+  display: block;
+  margin-top: 15px;
+  background: #25D366;
+  color: white;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+</style>
+
+<button id="cartButton">🛒 Cart (0)</button>
+
+<div id="cartBox">
+  <h3>🛒 Your Cart</h3>
+  <div id="cartItems">Your cart is empty.</div>
+  <h3>Total: $<span id="cartTotal">0</span></h3>
+  <a id="orderWhatsApp" href="#" target="_blank">Order on WhatsApp</a>
+</div>
+
+<script>
+let cart = [];
+
+document.querySelectorAll(".buy").forEach(function(button) {
+  button.textContent = "Add to Cart";
+
+  button.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    const card = button.closest(".card");
+    const name = card.querySelector("h3").textContent;
+    const priceText = card.querySelector(".price").textContent;
+    const price = parseFloat(priceText.replace("$", ""));
+
+    cart.push({
+      name: name,
+      price: price
+    });
+
+    updateCart();
+  });
+});
+
+function updateCart() {
+  const cartButton = document.getElementById("cartButton");
+  const cartItems = document.getElementById("cartItems");
+  const cartTotal = document.getElementById("cartTotal");
+
+  cartButton.textContent = "🛒 Cart (" + cart.length + ")";
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = "Your cart is empty.";
+    cartTotal.textContent = "0";
+    return;
+  }
+
+  let total = 0;
+  let html = "";
+
+  cart.forEach(function(item, index) {
+    total += item.price;
+
+    html += `
+      <div class="cartItem">
+        ${item.name} - $${item.price}
+        <button onclick="removeItem(${index})">❌</button>
+      </div>
+    `;
+  });
+
+  cartItems.innerHTML = html;
+  cartTotal.textContent = total.toFixed(2);
+
+  let message = "Hello Roberta Business Hub! I would like to order:%0A%0A";
+
+  cart.forEach(function(item) {
+    message += "• " + item.name + " - $" + item.price + "%0A";
+  });
+
+  message += "%0ATotal: $" + total.toFixed(2);
+
+  document.getElementById("orderWhatsApp").href =
+    "https://wa.me/231880068062?text=" + message;
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  updateCart();
+}
+
+document.getElementById("cartButton").addEventListener("click", function() {
+  const box = document.getElementById("cartBox");
+
+  if (box.style.display === "block") {
+    box.style.display = "none";
+  } else {
+    box.style.display = "block";
+  }
+});
+</script></body>
 </html>
