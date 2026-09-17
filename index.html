@@ -222,6 +222,44 @@ footer {
   border-radius: 12px;
   margin-top: 15px;
 }
+  .image-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    }
+  .image-viewer .viewer-image {
+    max-width: 100%;
+    max-height: 85%;
+    object-fit: contain;
+    }
+  .image-viewer .viewer-close {
+    position: absolute;
+    top: 20px;
+   right: 20px;
+    font-size: 32px;
+    color: white;
+    background: transparent;
+    border: none;
+    z-index: 10000;
+    cursor: pointer;
+    }
+  .image-viewer .viewer-count {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    }
 </style>
 </head>
 
@@ -848,6 +886,50 @@ window.open(
 
 
 updateCart();
+
+  document.querySelectorAll('.product-slider img').forEach(function(img) {
+  img.addEventListener('click', function() {
+    const slider = img.closest('.product-slider');
+const images = Array.from(slider.querySelectorAll('img'));
+const startIndex = images.indexOf(img);
+   let currentIndex = startIndex; 
+    const viewer = document.createElement('div');
+viewer.className = 'image-viewer';
+ viewer.innerHTML = `
+  <button class="viewer-close">&times;</button>
+  <div class="viewer-count"></div>
+`;   
+ const viewerImg = document.createElement('img');
+viewerImg.className = 'viewer-image';
+viewer.appendChild(viewerImg);
+function showImage() {
+  viewerImg.src = images[currentIndex].src;
+  viewer.querySelector('.viewer-count').textContent = (currentIndex + 1) + ' / ' + images.length;
+}    
+  document.body.appendChild(viewer);
+showImage();  
+  viewer.querySelector('.viewer-close').addEventListener('click', function() {
+  viewer.remove();
+});  
+    let touchStartX = 0;
+
+viewer.addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX;
+});
+    viewer.addEventListener('touchend', function(e) {
+  const touchEndX = e.changedTouches[0].clientX;
+  const swipeDistance = touchEndX - touchStartX;
+
+  if (swipeDistance < -50 && currentIndex < images.length - 1) {
+    currentIndex++;
+    showImage();
+  } else if (swipeDistance > 50 && currentIndex > 0) {
+    currentIndex--;
+    showImage();
+  }
+});
+    });
+    
 
 </script>
 
