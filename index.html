@@ -171,7 +171,29 @@ input {
   object-fit: cover;
   border-radius: 15px;
   scroll-snap-align: start;
+
+.product-slider::-webkit-scrollbar {
+  display: none;
 }
+}
+.slider-dots {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slider-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  background: #ccc;
+  border-radius: 50%;
+}
+
+.slider-dots span:first-child {
+  background: #7b2cbf;
+}
+  
 .total {
   font-size: 21px;
   font-weight: bold;
@@ -244,7 +266,14 @@ footer {
     <img src="IMG_1738.jpeg" alt="Cherry Blossom Light">
     <img src="IMG_1732.jpeg" alt="Cherry Blossom Light">
   </div>
-
+<div class="slider-dots">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
   <h3>Cherry Blossom Light - 1.9m</h3>
   <div class="price">$20 USD</div>
 
@@ -269,40 +298,7 @@ footer {
     Add to Cart
   </button>
 </div>
-  <div class="card">
-    <div class="product-slider">
-    <img src="IMG_1742.jpeg" alt="Cherry Blossom Light">
-    <img src="IMG_1741.jpeg" alt="Cherry Blossom Light">
-    <img src="IMG_1740.jpeg" alt="Cherry Blossom Light">
-    <img src="IMG_1739.jpeg" alt="Cherry Blossom Light">
-    <img src="IMG_1738.jpeg" alt="Cherry Blossom Light">
-    <img src="IMG_1732.jpeg" alt="Cherry Blossom Light">
-  </div>
-
-  <h3>Cherry Blossom Light - 1.9m</h3>
-  <div class="price">$20 USD</div>
-
-  <p>
-    Beautiful 1.9m cherry blossom decorative light for bedrooms
-    and indoor spaces. Creates a cozy aesthetic atmosphere and
-    comes with a remote control.
-  </p>
-
-  <p><strong>Choose Color:</strong></p>
-
-  <select id="cherryColor">
-    <option value="Pink">Pink - Only 1 left</option>
-    <option value="White">White - Only 1 left</option>
-    <option disabled>Blue - Sold Out</option>
-    <option disabled>Red - Sold Out</option>
-    <option disabled>Yellow - Sold Out</option>
-  </select>
-
-  <button class="buyBtn"
-    onclick="addToCart('Cherry Blossom Light - ' + document.getElementById('cherryColor').value, 20)">
-    Add to Cart
-  </button>
-</div>
+  
 </section>
 
 <section>
