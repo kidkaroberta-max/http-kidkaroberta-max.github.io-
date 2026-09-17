@@ -887,9 +887,9 @@ window.open(
 
 updateCart();
 
-  document.querySelectorAll('.product-slider img').forEach(function(img) {
+  document.querySelectorAll('.product-slider img, .product-card img').forEach(function(img) {
   img.addEventListener('click', function() {
-    const slider = img.closest('.product-slider');
+    const slider = img.closest('.product-slider, .product-card');
 const images = Array.from(slider.querySelectorAll('img'));
 const startIndex = images.indexOf(img);
    let currentIndex = startIndex; 
